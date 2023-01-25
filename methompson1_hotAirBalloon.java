@@ -12,8 +12,8 @@ public class methompson1_hotAirBalloon {
 		
 		// declaring variable types and initializing with the value 0.
 		int numPeople = 0;
-		int weight = 0;
-		int tempWeight = 0;
+		double weight = 0;
+		double tempWeight = 0;
 		
 		// declaring loop variable outside of loop so that it can be used in the if statements following loop execution. 
 		int i = 0;
@@ -28,7 +28,7 @@ public class methompson1_hotAirBalloon {
 			
 			// reading the input value tempWeight for each passenger
 			System.out.print("Enter the weight of the passenger: ");
-			tempWeight = scnr.nextInt();
+			tempWeight = scnr.nextDouble();
 			
 			// adding the weights of each passenger
 			weight += tempWeight; 
