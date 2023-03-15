@@ -42,28 +42,32 @@ public class Client {
 					i = 1; // increasing value to prevent infinite loops
 					continue;
 				} // if statement
+				
+				System.out.println(line);
+				
+				// creating variables that correspond to the correct data values from columns provided
+				String firstName = columns[0];
+				String lastName = columns[1];
+				String title = columns[2];
+				int year = Integer.parseInt(columns[3]);
+				String publisher = columns[4];
+				String genre = columns[5];
+				double rating = Double.parseDouble(columns[6]);
+				double price = Double.parseDouble(columns[7]);
+				
+				// calling Author and Book classes to create objects that correspond to the columns created above
+				Author author = new Author(firstName, lastName);
+				Book book = new Book(author, title, year, publisher, genre, rating, price);
+				
+				// adding completed books to the ArrayList
+				books.add(book);
+				
 			} // while loop
 			
-			// creating variables that correspond to the correct data values from columns provided
-			String firstName = columns[0];
-			String lastName = columns[1];
-			String title = columns[2];
-			int year = Integer.parseInt(columns[3]);
-			String publisher = columns[4];
-			String genre = columns[5];
-			double rating = Double.parseDouble(columns[6]);
-			double price = Double.parseDouble(columns[7]);
-			
-			// calling Author and Book classes to create objects that correspond to the columns created above
-			Author author = new Author(firstName, lastName);
-			Book book = new Book(author, title, year, publisher, genre, rating, price);
-			
-			// adding completed books to the ArrayList
-			books.add(book);
-		
 			
 		// creating book database
 		BookDatabase bookDatabase = new BookDatabase(books);
+		
 		
 		// demonstrating ability to search with author
 		Scanner scnr = new Scanner(System.in);
@@ -74,9 +78,7 @@ public class Client {
 		
 		// searching for author using method created in bookDatabse
 		System.out.println("Books with author: " + userFirstName + " " + userLastName);
-		ArrayList<Book> booksWithAuthor = bookDatabase.search(new Author(userFirstName, userLastName));
-		System.out.println(booksWithAuthor.toString());
-		
+		bookDatabase.search(new Author(userFirstName, userLastName));
 		
 		// demonstrating ability to search with years
 		
@@ -88,16 +90,13 @@ public class Client {
 		
 		// outputting data
 		System.out.println("Books in range: " + startYear + "-" + endYear);
-		ArrayList<Book> booksInRange = bookDatabase.search(startYear, endYear);
-		System.out.println(booksInRange.toString());
-		
+		bookDatabase.search(startYear, endYear);	
 		
 		// demonstrating ability to search with genre
 		System.out.print("Enter genre: ");
 		String userGenre = scnr.next();
 		System.out.println("Books with genre: " + userGenre);
-		ArrayList<Book> booksWithGenre = bookDatabase.search(userGenre);
-		System.out.println(booksWithGenre.toString());
+		bookDatabase.search(userGenre);
 		
 		// closing scanner 
 		scnr.close();
@@ -105,8 +104,7 @@ public class Client {
 		// testing with preset values
 		System.out.println("Books with author");
 		ArrayList<Book> booksWithAuthors = bookDatabase.search(new Author("jk", "rowling"));
-		System.out.println(booksWithAuthors.toString()); //FIXME test failed
-		
+		System.out.println(booksWithAuthors.toString());
 		
 		// closing buffered reader after methods execute
 		br.close();
@@ -124,12 +122,6 @@ public class Client {
 		
 		
 	} // main method
+	
 
 } // class client
-
-/*
- * NOTES: 
- * 2 main errors 
- * 1) variables not exporting properly, only one column at a time. 
- * 2) only exporting one book at a time.
- */ 
