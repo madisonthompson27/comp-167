@@ -40,7 +40,7 @@ public class BookDatabase {
 		
 		// for loop checks all books
 		for (Book book : books) {
-			if (book.author.equals(author)) { //FIXME
+			if (book.getAuthor().equals(author)) { //FIXME
 				result.add(book);
 			} // if statement
 		} // for loop
@@ -55,7 +55,7 @@ public class BookDatabase {
 		// creating new and separate list so that results from previous searches aren't included in new search
 		ArrayList<Book> result = new ArrayList<>();
 		for (Book book : books) {
-			if (book.year >= startYear && book.year <= endYear) { //FIXME
+			if (book.getYear() >= startYear && book.getYear() <= endYear) { // using accessor methods to read private variables 
 				result.add(book);
 			} // if statement 
 		} // for loop 
@@ -64,12 +64,12 @@ public class BookDatabase {
 	} 
 	
 	
-	// method to search by genre
-	public ArrayList<Book> genre(String genre) {
+	// method to search by genre (string)
+	public ArrayList<Book> search(String genre) {
 		
 		ArrayList <Book> result = new ArrayList<>();
 		for (Book book : books) {
-			if (book.genre.equals(genre)) {
+			if (book.getGenre().equals(genre)) {
 				result.add(book);
 			} // if statement
 		} // for loop
