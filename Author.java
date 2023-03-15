@@ -3,7 +3,7 @@ package libraryDatabase;
 
 
 // imports
-import java.util.Scanner;
+//import java.util.Scanner; // TODO comment back in if testing
 
 public class Author {
 
@@ -39,9 +39,12 @@ public class Author {
 
 	// creating a method to convert the given values to a string that includes both first and last name
 	public String toString() {
-		return "Author: " + this.firstName + " " + this.lastName;
+		return this.firstName + " " + this.lastName;
 	}
-
+	
+	// search method to allow user to search for book by author 
+	
+	/*
 	// testing constructors, accessor methods (modifiers), and toString().
 	public static void main(String[] args) {
 		Scanner scnr = new Scanner(System.in);
@@ -73,4 +76,5 @@ public class Author {
 		// testing toString method to make sure it outputs the full first and last name
 		System.out.println(option2.toString());
 	}// test class, successful as of 3/13/2023
+	*/
 } // class Author
