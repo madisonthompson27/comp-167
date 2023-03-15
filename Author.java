@@ -1,5 +1,8 @@
 package libraryDatabase;
-//this code allows the user to input the author of a book, and if no values are provided, they will be assigned. This is done by overriding two constructors.
+
+// document description
+// Reads the author of a book and if no values are provided, they will be assigned. This is done by overriding two constructors.
+// Converts values to strings, this class is used to improve the readability of future classes. Test case included. 
 
 
 // imports
