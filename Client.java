@@ -1,127 +1,127 @@
+// description
+
 package libraryDatabase;
 
-// document description
-
 // imports
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Scanner;
+//import java.util.Scanner; // TODO comment back in if testing
 
-public class Client {
+public class Book {
 
-	// used to separate book fields
-	private static final String delimiter = ",";
+	// declaring reference variables
+	private Author author;
+	private String title;
+	private int year;
+	private String publisher;
+	private String genre;
+	private double rating;
+	private double price;
 	
 	
-	// main method to read user inputs and manipulate data given
+	// constructor that holds default values, called when no input is provided.
+	public Book() {
+		// declaring default values for author
+		this.author.setFirstName("none");
+		this.author.setLastName("none");
+		
+		// declaring default value for title as "None"
+		this.title = "none";
+		
+		// declaring default value for year as -1
+		this.year = -1;
+		
+		// declaring default value for publisher and genre as "none"
+		this.publisher = "none";
+		this.genre = "none";
+		
+		// declaring default value for rating and price as -1.0 (doubles)
+		this.rating = -1.0;
+		this.price = -1.0;
+	} // constructor Book()
+	
+	// override constructor for usage when values are given.
+	public Book(Author author, String title, int year, String publisher, String genre, double rating, double price) {
+		// declaring values for the author class
+		this.author = author;
+		
+		// declaring each variable to match the input provided, in respective order.
+		this.title = title;
+		this.year = year;
+		this.publisher = publisher;
+		this.genre = genre; 
+		this.rating = rating;
+		this.price = price;
+	}
+	
+	// accessor and mutator methods
+	
+	// methods for author being called from the class
+	protected void setAuthor(Author author) {this.author = author;}
+	
+	// mutators (setters) for normal members (title-price)
+	protected void setTitle(String title) {this.title = title;}
+	protected void setYear(int year) {this.year = year;}
+	protected void setPublisher(String publisher) {this.publisher = publisher;}
+	protected void setGenre(String genre) {this.genre = genre;}
+	protected void setRating(double rating) {this.rating = rating;}
+	protected void setPrice(double price) {this.price = price;}
+	
+	
+	// accessor for author class
+	protected Author getAuthor() {return this.author;}
+	
+	// accessors (getters) for normal members (title-price)
+	protected String getTitle() {return this.title;}
+	protected int getYear() {return this.year;}
+	protected String getPublisher() {return this.publisher;}
+	protected String getGenre() {return this.genre;}
+	protected double getRating() {return this.rating;}
+	protected double getPrice() {return this.price;}
+	
+	
+	// toString() method to return values from the array list as a string
+	public String toString() {
+		return  "\n" + "Book {" + 				// brackets contain information about the book, isolate from other boots
+				author +
+				", Title: " + title +
+				", Year: " + year +
+				", Publisher: " + publisher +
+				", Genre: " + genre + 
+				", Rating: " + rating + 
+				", Price: " + price +
+				"}";
+	}
+	
+	/*
+	// testing 
 	public static void main(String[] args) {
-		
-		// try except block so that errors in the file don't cause the code to break
-		try {
-			// declaring file readers
-			ArrayList<Book> books = new ArrayList<>();
-			File file = new File("C:/Users/thema/OneDrive/Comp 167/libraryDatabase/src/libraryDatabase/MP1.csv"); // FIXME update path to submit
-			FileReader fr = new FileReader(file);
-			
-			// buffered reader to read the content contained in the file
-			BufferedReader br = new BufferedReader(fr);
-			
-			// declaring variables needed to manipulate data in file
-			String line;
-			String[] columns = null;
-			int i = 0;
-			
-			
-			// reading CSV file line-by-line, until there isn't another line
-			while ((line = br.readLine()) != null) {
-				// splitting by row (commas) and storing in an array
-				columns = line.split(delimiter);
-				
-				// writing an if statement to skip the headers of the csv
-				if (i == 0) {
-					i = 1; // increasing value to prevent infinite loops
-					continue;
-				} // if statement
-				
-				System.out.println(line);
-				
-				// creating variables that correspond to the correct data values from columns provided
-				String firstName = columns[0];
-				String lastName = columns[1];
-				String title = columns[2];
-				int year = Integer.parseInt(columns[3]);
-				String publisher = columns[4];
-				String genre = columns[5];
-				double rating = Double.parseDouble(columns[6]);
-				double price = Double.parseDouble(columns[7]);
-				
-				// calling Author and Book classes to create objects that correspond to the columns created above
-				Author author = new Author(firstName, lastName);
-				Book book = new Book(author, title, year, publisher, genre, rating, price);
-				
-				// adding completed books to the ArrayList
-				books.add(book);
-				
-			} // while loop
-			
-			
-		// creating book database
-		BookDatabase bookDatabase = new BookDatabase(books);
-		
-		
-		// demonstrating ability to search with author
 		Scanner scnr = new Scanner(System.in);
-		System.out.print("Enter author first name: ");
-		String userFirstName = scnr.next();
-		System.out.print("Enter author last name: ");
-		String userLastName = scnr.next();
 		
-		// searching for author using method created in bookDatabse
-		System.out.println("Books with author: " + userFirstName + " " + userLastName);
-		bookDatabase.search(new Author(userFirstName, userLastName));
+		// test input variables
+		System.out.println("Title: ");
+		String userTitle = scnr.nextLine();
 		
-		// demonstrating ability to search with years
+		System.out.println("Year: ");
+		int userYear = scnr.nextInt();
 		
-		// reading inputs
-		System.out.print("Enter start year: ");
-		int startYear = scnr.nextInt();
-		System.out.print("Enter end year: ");
-		int endYear = scnr.nextInt();
+		System.out.println("Publisher: ");
+		String userPublisher = scnr.nextLine();
 		
-		// outputting data
-		System.out.println("Books in range: " + startYear + "-" + endYear);
-		bookDatabase.search(startYear, endYear);	
-		
-		// demonstrating ability to search with genre
-		System.out.print("Enter genre: ");
-		String userGenre = scnr.next();
-		System.out.println("Books with genre: " + userGenre);
-		bookDatabase.search(userGenre);
-		
-		// closing scanner 
-		scnr.close();
-		
-		// testing with preset values
-		System.out.println("Books with author");
-		ArrayList<Book> booksWithAuthors = bookDatabase.search(new Author("jk", "rowling"));
-		System.out.println(booksWithAuthors.toString());
-		
-		// closing buffered reader after methods execute
-		br.close();
-		
-		// catching exceptions
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-		// exit message for user
-		System.out.println("\nThank you for using the library database!");
-		
-		
-	} // main method
-	
+		System.out.println("Genre: ");
+		String userGenre = scnr.nextLine();
 
-} // class client
+		System.out.println("Rating: ");
+		double userRating = scnr.nextDouble();
+
+		System.out.println("Price: ");
+		double userPrice = scnr.nextDouble();
+		
+		// creating two options from each constructor
+		Book option1 = new Book(userTitle, userYear, userPublisher, userGenre, userRating, userPrice);
+		Book option2 = new Book();
+		
+		System.out.println(option1);
+		System.out.println(option2);
+		
+	}
+	*/
+} // class Book
