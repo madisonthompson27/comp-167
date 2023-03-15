@@ -1,6 +1,7 @@
-// description
-
 package libraryDatabase;
+
+// document description
+// Assigns default values to blank cells in csv, or assigns them from values read using the second constructor. 
 
 // imports
 //import java.util.Scanner; // TODO comment back in if testing
@@ -80,15 +81,16 @@ public class Book {
 	
 	// toString() method to return values from the array list as a string
 	public String toString() {
-		return  "\n" + "Book {" + 				// brackets contain information about the book, isolate from other boots
-				author +
-				", Title: " + title +
-				", Year: " + year +
-				", Publisher: " + publisher +
-				", Genre: " + genre + 
-				", Rating: " + rating + 
-				", Price: " + price +
-				"}";
+			
+		return  "\n" +"Book " + ": {" +  // brackets help improve user readability
+			author +			
+			", Title: " + title +
+			", Year: " + year +
+			", Publisher: " + publisher +
+			", Genre: " + genre + 
+			", Rating: " + rating + 
+			", Price: $" + price +
+			"}";
 	}
 	
 	/*
