@@ -1,6 +1,7 @@
 package libraryDatabase;
 
-//code description
+//document description
+// Search methods updated to print values that meet criteria, and notify the user if there aren't any books that meet their criteria. 
 
 // imports
 import java.util.ArrayList;
@@ -40,13 +41,22 @@ public class BookDatabase {
 		
 		// for loop checks all books		
 		for (Book book : books) {
-			if (book.getAuthor().toString().equals(author.toString())) { //FIXME
+			//to string converts both into compatible forms 
+			if (book.getAuthor().toString().equals(author.toString())) {
 				result.add(book);
 				
 			} // if statement
 		} // for loop
 		
-		System.out.println(result);
+		// improving user functionality by only printing if the exists a book that meets the parameters specified. 
+		if (result.size() == 0) {
+			System.out.println();
+			System.out.println("No books have the author \"" + author.toString() + "\"");
+		}
+		else {
+			System.out.println(result);
+		}
+		
 		return result; // stores search results for user
 	} // author search method
 	
@@ -62,7 +72,15 @@ public class BookDatabase {
 			} // if statement 
 		} // for loop 
 
-		System.out.println(result);
+		// improving user functionality by only printing if the exists a book that meets the parameters specified. 
+		if (result.size() == 0) {
+			System.out.println();
+			System.out.println("No books are in the range " + startYear + "-" + endYear);
+		}
+		else {
+			System.out.println(result);
+		}
+		
 		return result; // stores search results for user
 	} 
 	
@@ -77,7 +95,15 @@ public class BookDatabase {
 			} // if statement
 		} // for loop
 		
-		System.out.println(result);
+		// improving user functionality by only printing if the exists a book that meets the parameters specified. 
+		if (result.size() == 0) {
+			System.out.println();
+			System.out.println("No books have the genre \"" + genre + "\"");
+		}
+		else {
+			System.out.println(result);
+		}
+		
 		return result; // stores search results for user
 	}
 	
