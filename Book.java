@@ -3,7 +3,7 @@
 package libraryDatabase;
 
 // imports
-import java.util.Scanner;
+//import java.util.Scanner; // TODO comment back in if testing
 
 public class Book {
 
@@ -19,9 +19,9 @@ public class Book {
 	
 	// constructor that holds default values, called when no input is provided.
 	public Book() {
-		// declaring default values for author FIXME is this even needed given the constructor it was declared with?
-		//this.author.setFirstName("none");
-		//author.setLastName("none"); // FIXME author
+		// declaring default values for author
+		this.author.setFirstName("none");
+		this.author.setLastName("none");
 		
 		// declaring default value for title as "None"
 		this.title = "none";
@@ -39,7 +39,7 @@ public class Book {
 	} // constructor Book()
 	
 	// override constructor for usage when values are given.
-	public Book(Author author, String title, int year, String publisher, String genre, double rating, double price) { //FIXME add author
+	public Book(Author author, String title, int year, String publisher, String genre, double rating, double price) {
 		// declaring values for the author class
 		this.author = author;
 		
@@ -55,7 +55,6 @@ public class Book {
 	// accessor and mutator methods
 	
 	// methods for author being called from the class
-	//protected void getAuthor(String firstName, String lastName) {this.author = ;} FIXME TODO
 	protected void setAuthor(Author author) {this.author = author;}
 	
 	// mutators (setters) for normal members (title-price)
@@ -81,15 +80,15 @@ public class Book {
 	
 	// toString() method to return values from the array list as a string
 	public String toString() {
-		return "Book{" + 						// brackets contain information about the book, isolate from other boots
-				"Author: " + author +
+		return  "\n" + "Book {" + 				// brackets contain information about the book, isolate from other boots
+				author +
 				", Title: " + title +
 				", Year: " + year +
 				", Publisher: " + publisher +
 				", Genre: " + genre + 
 				", Rating: " + rating + 
 				", Price: " + price +
-				"}" + "\n"; 					// newline improves readability
+				"}";
 	}
 	
 	/*
