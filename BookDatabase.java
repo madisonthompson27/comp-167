@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class BookDatabase {
 
 	// declaring variables
-	private final ArrayList<Book> books;
+	private ArrayList<Book> books;
 
 	// creating blank constructor
 	public BookDatabase() {
@@ -38,13 +38,15 @@ public class BookDatabase {
 		
 		ArrayList<Book> result = new ArrayList<>();
 		
-		// for loop checks all books
+		// for loop checks all books		
 		for (Book book : books) {
-			if (book.getAuthor().equals(author)) { //FIXME
+			if (book.getAuthor().toString().equals(author.toString())) { //FIXME
 				result.add(book);
+				
 			} // if statement
 		} // for loop
 		
+		System.out.println(result);
 		return result; // stores search results for user
 	} // author search method
 	
@@ -59,7 +61,8 @@ public class BookDatabase {
 				result.add(book);
 			} // if statement 
 		} // for loop 
-		
+
+		System.out.println(result);
 		return result; // stores search results for user
 	} 
 	
@@ -74,13 +77,14 @@ public class BookDatabase {
 			} // if statement
 		} // for loop
 		
+		System.out.println(result);
 		return result; // stores search results for user
 	}
 	
 	
 	// to string method to allow books to be in format that can be read by user
 	public String toString() {
-		
+				
 		// converts to a string that lists each book under the title "BookDatabase"
 		return "BookDatabase{ " +
 				"Books: " + books.toString() +
