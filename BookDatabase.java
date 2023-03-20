@@ -1,151 +1,129 @@
 package libraryDatabase;
 
-//document description
-// Search methods updated to print values that meet criteria, and notify the user if there aren't any books that meet their criteria. 
+// document description
+// Assigns default values to blank cells in csv, or assigns them from values read using the second constructor. 
 
 // imports
-import java.util.ArrayList;
+//import java.util.Scanner; // TODO comment back in if testing
 
-public class BookDatabase {
+public class Book {
 
-	// declaring variables
-	private ArrayList<Book> books;
-
-	// creating blank constructor
-	public BookDatabase() {
-		this.books = new ArrayList<>(); // will create a blank list if no books are given as input
+	// declaring reference variables
+	private Author author;
+	private String title;
+	private int year;
+	private String publisher;
+	private String genre;
+	private double rating;
+	private double price;
+	
+	
+	// constructor that holds default values, called when no input is provided.
+	public Book() {
+		// declaring default values for author
+		this.author.setFirstName("none");
+		this.author.setLastName("none");
+		
+		// declaring default value for title as "None"
+		this.title = "none";
+		
+		// declaring default value for year as -1
+		this.year = -1;
+		
+		// declaring default value for publisher and genre as "none"
+		this.publisher = "none";
+		this.genre = "none";
+		
+		// declaring default value for rating and price as -1.0 (doubles)
+		this.rating = -1.0;
+		this.price = -1.0;
+	} // constructor Book()
+	
+	// override constructor for usage when values are given.
+	public Book(Author author, String title, int year, String genre, String publisher, double rating, double price) {
+		// declaring values for the author class
+		this.author = author;
+		
+		// declaring each variable to match the input provided, in respective order.
+		this.title = title;
+		this.year = year;
+		this.genre = genre; 
+		this.publisher = publisher;
+		this.rating = rating;
+		this.price = price;
 	}
 	
-	// creating a constructor for when information is given
-	public BookDatabase(ArrayList<Book> books) {
-		this.books = books; // initializing the list with the values given
-	}
+	// accessor and mutator methods
 	
-	// method to add a book to the given ArrayList
-	public void addBook(Book book) {
-		this.books.add(book); 
-	}
+	// methods for author being called from the class
+	protected void setAuthor(Author author) {this.author = author;}
 	
-	// method to remove a book from the ArrayList
-	public void removeBook(Book book) {
-		this.books.remove(book);
-	}
+	// mutators (setters) for normal members (title-price)
+	protected void setTitle(String title) {this.title = title;}
+	protected void setYear(int year) {this.year = year;}
+	protected void setGenre(String genre) {this.genre = genre;}
+	protected void setPublisher(String publisher) {this.publisher = publisher;}
+	protected void setRating(double rating) {this.rating = rating;}
+	protected void setPrice(double price) {this.price = price;}
 	
 	
-	// search methods
+	// accessor for author class
+	protected Author getAuthor() {return this.author;}
 	
-	// method to allow the user to search by author
-	public ArrayList<Book> search(Author author) {
-		
-		ArrayList<Book> result = new ArrayList<>();
-		
-		// for loop checks all books		
-		for (Book book : books) {
-			//to string converts both into compatible forms 
-			if (book.getAuthor().toString().equals(author.toString())) {
-				result.add(book);
-				
-			} // if statement
-		} // for loop
-		
-		// improving user functionality by only printing if the exists a book that meets the parameters specified. 
-		if (result.size() == 0) {
-			System.out.println();
-			System.out.println("No books have the author \"" + author.toString() + "\".");
-		}
-		else {
-			System.out.println(result);
-		}
-		
-		return result; // stores search results for user
-	} // author search method
+	// accessors (getters) for normal members (title-price)
+	protected String getTitle() {return this.title;}
+	protected int getYear() {return this.year;}
+	protected String getGenre() {return this.genre;}
+	protected String getPublisher() {return this.publisher;}
+	protected double getRating() {return this.rating;}
+	protected double getPrice() {return this.price;}
 	
 	
-	// method to search by a range of years
-	public ArrayList<Book> search(int startYear, int endYear) {
-		
-		// creating new and separate list so that results from previous searches aren't included in new search
-		ArrayList<Book> result = new ArrayList<>();
-		for (Book book : books) {
-			if (book.getYear() >= startYear && book.getYear() <= endYear) { // using accessor methods to read private variables 
-				result.add(book);
-			} // if statement 
-		} // for loop 
-
-		// improving user functionality by only printing if the exists a book that meets the parameters specified. 
-		if (result.size() == 0) {
-			System.out.println();
-			System.out.println("No books are in the range " + startYear + "-" + endYear + ".");
-		}
-		else {
-			System.out.println(result);
-		}
-		
-		return result; // stores search results for user
-	} 
-	
-	
-	// method to search by genre (string)
-	public ArrayList<Book> search(String genre) {
-		
-		ArrayList <Book> result = new ArrayList<>();
-		for (Book book : books) {
-			if (book.getGenre().equals(genre)) {
-				result.add(book);
-			} // if statement
-		} // for loop
-		
-		
-		// improving user functionality by only printing if the exists a book that meets the parameters specified. 
-		if (result.size() == 0) {
-			System.out.println();
-			System.out.println("No books have the genre \"" + genre + "\".");
-		}
-		else {
-			System.out.println(result);
-		}
-		
-		return result; // stores search results for user
-	}
-	
-	// an extra method, to search by price, appears here.
-	
-	// search by a price maximum, returns all books below a certain price.
-	public ArrayList<Book> search(double price) {
-		
-		// creating a blank list to store values to meet criteria
-		ArrayList<Book> result = new ArrayList<>();
-		// for loop iterates through every item (book) in the database (bookDatabase object)
-		for (Book book : books) {
-			// if the price is less than or equal to the price entered
-			if (book.getPrice() <= price) {
-				// add books that meet the criteria to the list
-				result.add(book); 
-			} // if statement
-		} // for loop
-		
-		
-		// printing data values, doing in method to improve readability of client. Return statement redundant. 
-		if (result.size() == 0) {
-			System.out.println();
-			System.out.println("There are no books that cost $" + price + " or less.");
-		}
-		
-		else {
-			System.out.println(result);
-		}
-		
-		return result;
-	} // method
-	
-	
-	// to string method to allow books to be in format that can be read by user
+	// toString() method to return values from the array list as a string
 	public String toString() {
-				
-		// converts to a string that lists each book under the title "BookDatabase"
-		return "BookDatabase: { " +
-				books.toString() +
-				"}";
+			
+		return  "\n" +"Book" + ": {" +  // brackets help improve user readability
+			"Author: " + author +			
+			", Title: " + title +
+			", Year: " + year +
+			", Genre: " + genre + 
+			", Publisher: " + publisher +
+			", Rating: " + rating + 
+			", Price: $" + price +
+			"}";
 	}
 	
-} // class BookDatabase
+	/*
+	// testing 
+	public static void main(String[] args) {
+		Scanner scnr = new Scanner(System.in);
+		
+		// test input variables
+		System.out.println("Title: ");
+		String userTitle = scnr.nextLine();
+		
+		System.out.println("Year: ");
+		int userYear = scnr.nextInt();
+		
+		System.out.println("Publisher: ");
+		String userPublisher = scnr.nextLine();
+		
+		System.out.println("Genre: ");
+		String userGenre = scnr.nextLine();
+
+		System.out.println("Rating: ");
+		double userRating = scnr.nextDouble();
+
+		System.out.println("Price: ");
+		double userPrice = scnr.nextDouble();
+		
+		// creating two options from each constructor
+		Book option1 = new Book(userTitle, userYear, userPublisher, userGenre, userRating, userPrice);
+		Book option2 = new Book();
+		
+		System.out.println(option1);
+		System.out.println(option2);
+		
+	}
+	*/
+} // class Book
