@@ -51,7 +51,7 @@ public class BookDatabase {
 		// improving user functionality by only printing if the exists a book that meets the parameters specified. 
 		if (result.size() == 0) {
 			System.out.println();
-			System.out.println("No books have the author \"" + author.toString() + "\"");
+			System.out.println("No books have the author \"" + author.toString() + "\".");
 		}
 		else {
 			System.out.println(result);
@@ -75,7 +75,7 @@ public class BookDatabase {
 		// improving user functionality by only printing if the exists a book that meets the parameters specified. 
 		if (result.size() == 0) {
 			System.out.println();
-			System.out.println("No books are in the range " + startYear + "-" + endYear);
+			System.out.println("No books are in the range " + startYear + "-" + endYear + ".");
 		}
 		else {
 			System.out.println(result);
@@ -95,10 +95,11 @@ public class BookDatabase {
 			} // if statement
 		} // for loop
 		
+		
 		// improving user functionality by only printing if the exists a book that meets the parameters specified. 
 		if (result.size() == 0) {
 			System.out.println();
-			System.out.println("No books have the genre \"" + genre + "\"");
+			System.out.println("No books have the genre \"" + genre + "\".");
 		}
 		else {
 			System.out.println(result);
@@ -107,13 +108,43 @@ public class BookDatabase {
 		return result; // stores search results for user
 	}
 	
+	// an extra method, to search by price, appears here.
+	
+	// search by a price maximum, returns all books below a certain price.
+	public ArrayList<Book> search(double price) {
+		
+		// creating a blank list to store values to meet criteria
+		ArrayList<Book> result = new ArrayList<>();
+		// for loop iterates through every item (book) in the database (bookDatabase object)
+		for (Book book : books) {
+			// if the price is less than or equal to the price entered
+			if (book.getPrice() <= price) {
+				// add books that meet the criteria to the list
+				result.add(book); 
+			} // if statement
+		} // for loop
+		
+		
+		// printing data values, doing in method to improve readability of client. Return statement redundant. 
+		if (result.size() == 0) {
+			System.out.println();
+			System.out.println("There are no books that cost $" + price + " or less.");
+		}
+		
+		else {
+			System.out.println(result);
+		}
+		
+		return result;
+	} // method
+	
 	
 	// to string method to allow books to be in format that can be read by user
 	public String toString() {
 				
 		// converts to a string that lists each book under the title "BookDatabase"
-		return "BookDatabase{ " +
-				"Books: " + books.toString() +
+		return "BookDatabase: { " +
+				books.toString() +
 				"}";
 	}
 	
