@@ -1,6 +1,6 @@
 package libraryDatabase;
 
-// document description
+//document description
 //Allows the user to view the code running three search methods, then prompts them to use each search method if they choose. Closes with exit message. 
 
 // imports
@@ -22,13 +22,14 @@ public class Client {
 		System.out.println("A) search by author");
 		System.out.println("B) search by year");
 		System.out.println("C) search by genre");
+		System.out.println("D) search by price");
 		System.out.println("Q) quit");
 		System.out.println("=====================================================");
 		System.out.print("Enter choice: ");
 	} // end menu
 	
 	// creating a function to display the menu, read an input, convert to uppercase, and format the menu properly. 
-	@SuppressWarnings("resource")
+	@SuppressWarnings("resource") // cannot close scanner due to user lower in code
 	public static Character menuChoice() {
 		// displaying menu options
 		Scanner scnr = new Scanner(System.in);
@@ -50,7 +51,7 @@ public class Client {
 		try {
 			// declaring file readers
 			ArrayList<Book> books = new ArrayList<>();
-			File file = new File("MP1.csv");
+			File file = new File("src/libraryDatabase/MP1.csv");
 			FileReader fr = new FileReader(file);
 			
 			// buffered reader to read the content contained in the file
@@ -80,14 +81,18 @@ public class Client {
 				String lastName = columns[1];
 				String title = columns[2];
 				int year = Integer.parseInt(columns[3]);
-				String publisher = columns[4];
-				String genre = columns[5];
+				String genre = columns[4];
+				String publisher = columns[5];
 				double rating = Double.parseDouble(columns[6]);
-				double price = Double.parseDouble(columns[7]);
+				String priceInput = columns[7];
+				
+				// converting price into a double 
+				priceInput = priceInput.replace("$", "");
+				double price = Double.parseDouble(priceInput);
 				
 				// calling Author and Book classes to create objects that correspond to the columns created above
 				Author author = new Author(firstName, lastName);
-				Book book = new Book(author, title, year, publisher, genre, rating, price);
+				Book book = new Book(author, title, year, genre, publisher, rating, price);
 				
 				// adding completed books to the ArrayList
 				books.add(book);
@@ -100,34 +105,107 @@ public class Client {
 		// demonstrating ability of search methods.
 		
 		// telling the user that the tests being run now are for preset values
+		System.out.println("=============================================================================================================");
 		System.out.println("This portion of the code prints books using preset values.");
-		System.out.println("The author being used is jk rowling (all lowercase).");
-		System.out.println("The range of years being used is 1900-2023.");
-		System.out.println("The genre being used is fiction.");
+		System.out.println("=============================================================================================================");
+		System.out.println(); // spacing
+		System.out.println("Search by Author:");
+		System.out.println("The author being used are Kevin Powell and Werner Sollors.");
+		System.out.println(); // spacing
+		System.out.println("Search by Year:");
+		System.out.println("The range of years being used are 1900-1970 and 1971-2023.");
+		System.out.println(); // spacing
+		System.out.println("Search by Genre:");
+		System.out.println("The genres being used are \"Poetry Anthologies\" and \"Travel\".");
+		System.out.println(); // spacing
+		System.out.println("Search by Price:");
+		System.out.println("The price being searched for is all books under $20.00.");
+		// end user communication for preset methods
 		
-		// testing the author method with preset values
+		// testing the author method with preset values for "Kevin Powell"
+		// spacing
 		System.out.println();
-		System.out.println("Books with author \"jk rowling\":");
-		bookDatabase.search(new Author("jk", "rowling"));
+		System.out.println("=============================================================================================================");
+		// output message to user
+		System.out.println("Books with author \"Kevin Powell\":");
+		// calling search method, print contained in search. 
+		bookDatabase.search(new Author("Kevin", "Powell"));
+		System.out.println("=============================================================================================================");
+
+		// testing the author method with preset values for "Werner Sollors"
+		// spacing
+		System.out.println();
+		System.out.println("=============================================================================================================");
+		// output message to user
+		System.out.println("Books with author \"Werner Sollors\":");
+		// calling search method, print contained in search. 
+		bookDatabase.search(new Author("Werner", "Sollors"));
+		System.out.println("=============================================================================================================");
 		
 		// testing year method with preset values
-		System.out.println();
-		System.out.println("Books published between 1900-2023:");
-		bookDatabase.search(1900, 2023);
+		System.out.println(); //spacing 
+		System.out.println("=============================================================================================================");
+		System.out.println("Books published between 1900-1970:");
+		bookDatabase.search(1900, 1970); // print method contained in search method
+		System.out.println("=============================================================================================================");
 		
-		// testing genre method with "fiction"
+		// testing year method with preset values
+		System.out.println(); //spacing 
+		System.out.println("=============================================================================================================");
+		System.out.println("Books published between 1970-2023:");
+		bookDatabase.search(1970, 2023); // print method contained in search method
+		System.out.println("=============================================================================================================");
+		
+		// testing genre method with "Poetry"
 		System.out.println();
-		System.out.println("Books with genre \"fiction\":");
-		bookDatabase.search("fiction");
+		System.out.println("=============================================================================================================");
+		System.out.println("Books with genre \"Poetry Anthologies\":");
+		bookDatabase.search("Poetry Anthologies");
+		System.out.println("=============================================================================================================");
+		
+		// testing genre method with "Travel"
+		System.out.println();
+		System.out.println("=============================================================================================================");
+		System.out.println("Books with genre \"Travel\":");
+		bookDatabase.search("Travel");
+		System.out.println("=============================================================================================================");
+		
+		// testing price method with "20.00"
+		System.out.println();
+		System.out.println("=============================================================================================================");
+		System.out.println("Books less than or equal to $20.00:");
+		bookDatabase.search(20.00); // know that the method will call the appropriate search value because of overloading
+		System.out.println("=============================================================================================================");
 		
 		// closing buffered reader after methods execute
 		br.close();
 		
-		
 		// allowing the user to try inputting values
 		Scanner scanner = new Scanner(System.in);
+		
+		// offering the user the option to see the entire data set. 
+		System.out.println(); // spacing
+		System.out.println("=============================================================================================================");
+		System.out.println("Would you like to see the entire library database? Y for yes, N for no.");
+		System.out.println("=============================================================================================================");
+
+		// reading user input to determine if entire library should be exported.
+		Character selection = scanner.next().charAt(0);
+		Character export = Character.toUpperCase(selection);
+		
+		// if statement to interpret user input
+		if (export == 'Y') {
+			System.out.println(); // spacing
+			System.out.println("=============================================================================================================");
+			System.out.println(bookDatabase);
+			System.out.println("=============================================================================================================");
+		}
+		
+		// allowing the user to choose to search by custom values. 
 		System.out.println();
+		System.out.println("=============================================================================================================");
 		System.out.println("Would you like to try inputting search values? Y for yes, N for no.");
+		System.out.println("=============================================================================================================");
 		Character choice = scanner.next().charAt(0);
 		Character search = Character.toUpperCase(choice);
 
@@ -141,6 +219,8 @@ public class Client {
 				
 				// if the user chooses option A, they'll be prompted to 
 				if (menuOption == 'A') {
+					
+					System.out.println("=====================================================");
 					// demonstrating ability to search with author using user-entered values. 
 					System.out.print("Enter author first name: ");
 					String userFirstName = scanner.next();
@@ -157,9 +237,10 @@ public class Client {
 				} // option A
 				
 				// allowing the user to search by range of years. 
-				if (menuOption == 'B') {
+				else if (menuOption == 'B') {
 					// demonstrating ability to search with years using user-entered values. 
 					// reading inputs
+					System.out.println("=====================================================");
 					System.out.print("Enter start year: ");
 					int startYear = scanner.nextInt();
 					System.out.print("Enter end year: ");
@@ -174,7 +255,8 @@ public class Client {
 				} // option B
 				
 				// allowing the user to search by genre. 
-				if (menuOption == 'C') {
+				else if (menuOption == 'C') {
+					System.out.println("=====================================================");
 					// demonstrating ability to search with genre using user-entered values. 
 					System.out.print("Enter genre: ");
 					String userGenre = scanner.next();
@@ -185,8 +267,21 @@ public class Client {
 					menuOption = menuChoice();
 				} // option C
 				
+				// allowing the user to search by price
+				else if (menuOption == 'D') {
+					System.out.println("=====================================================");
+					// demonstrating ability to search using a double, in this case price.
+					System.out.print("Enter price: ");
+					double userPrice = scanner.nextDouble();
+					System.out.println("Books that cost $" + userPrice + " or less:");
+					bookDatabase.search(userPrice);
+					
+					// calling menu and allowing the user to input a new value
+					menuOption = menuChoice();
+				} // option D
+				
 				// fail safe to break out of any infinite loops 
-				if (menuOption == 'Q') {
+				else if (menuOption == 'Q') {
 					break;
 				} // end fail safe
 				
@@ -196,7 +291,7 @@ public class Client {
 					menuOption = menuChoice();
 				} // end else 
 			} // while loop 
-		} // if search == 'Y'
+		} // if statement
 		
 		// closing second scanner
 		scanner.close();
