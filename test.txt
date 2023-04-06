@@ -1,0 +1,59 @@
+Store Name:
+Monstrous Mower Warehouse
+
+Mower 1:
+Manufacturer: Briggs and Stratton
+Year: 2015
+Serial Number: AFXH1
+Subclass: L
+Engine Manufacturer: Gravely Parts
+Horsepower: 10.8
+Cylinders: 2
+Model: Model1
+Deck width: 45.5
+
+Mower 2:
+Manufacturer: B&H Manufacturing
+Year: 2011
+Serial Number: AFXH2
+Subclass: C
+Engine Manufacturer: Poulan Parts
+Horsepower: 10.5
+Cylinders: 2
+Model: Model2
+Deck width: 5.8
+Operating Hours: 35.5
+Zero Turn Radius: false
+
+Mower 3:
+Manufacturer: Bush Hog Manufacturing
+Year: 2013
+Serial Number: AFXH3
+Subclass: G
+Cut Width: 20.0
+Wheel Diameter: 16.0
+Self Propelled: true
+Engine Manufacturer: Homelite Parts
+Horsepower: 10.5
+Cylinders: 2
+
+Mower 4:
+Manufacturer: Ferris Industries
+Year: 2003
+Serial Number: AFXH4
+Subclass: P
+Cut Width: 18.0
+Wheel Diameter: 25.1
+Number of Wheels: 4
+
+Mower 5:
+Manufacturer: Briggs and Stratton II
+Year: 2015
+Serial Number: AFXH1vv
+Subclass: L
+Engine Manufacturer: Gravely Parts
+Horsepower: 13.3
+Cylinders: 2
+Model: Model1
+Deck width: 45.5
+
