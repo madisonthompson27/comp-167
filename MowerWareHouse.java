@@ -4,8 +4,11 @@ package mowerInventory;
 
 // imports
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.io.*;
 import java.util.Scanner;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class MowerWareHouse extends Mower {
 	// declaring class variables
@@ -14,6 +17,7 @@ public class MowerWareHouse extends Mower {
 	public ArrayList<String> completeMowers = new ArrayList<String>(); // stores mowers and mower subclass data
 	private ArrayList<String> storage = new ArrayList<String>(); // stores subclasses until they're combined with main mower in completeMowers
 	private Character type;
+	public ArrayList<String> unformattedMowers = new ArrayList<String>(); // stores unformatted data to add to input file
 	
 	// store final objects based on mower type
 	public ArrayList<String> commercialMowers = new ArrayList<String>(); // stores objects of subclass C
@@ -108,7 +112,7 @@ public class MowerWareHouse extends Mower {
 		GasPoweredMower gasPoweredMower = new GasPoweredMower(engine, Boolean.parseBoolean(mowerData.get(0)));
 		mowerData.remove(0);
 		// add value to storage list
-		storage.add(walkBehindMower.toString() + gasPoweredMower.addSelfPropelled() + engine.toString());
+		storage.add(walkBehindMower.toString() + engine.toString() + gasPoweredMower.addSelfPropelled());
 	} // GasPoweredMowerCalc()
 	
 	public void PushReelMowerCalc(ArrayList<String> mowerData) {
@@ -154,6 +158,7 @@ public class MowerWareHouse extends Mower {
 	} // MowerChoice()
 	
 	// method to read file data
+	@SuppressWarnings("resource")
 	public void readMowerData(String inputFileName) throws IOException {		
 		// making file with name passed to method
 		try {
@@ -175,6 +180,9 @@ public class MowerWareHouse extends Mower {
 			
 			// local variable for appending to completeMowers
 			int count = 0;
+			
+			// starting with blank list
+			completeMowers.clear();
 			
 			// assigning Mower class with proper subclass
 			while (mowerData.size() > 0) {
@@ -203,18 +211,242 @@ public class MowerWareHouse extends Mower {
 				
 				// Incrementing count 
 				count++;
-			} // second while loop
-			
-			
-			fs.close();
+			} // second while loop			
 			// testing
 			//System.out.println(completeMowers);// TODO add back in for testing
 		} // try block
 		
 		catch (FileNotFoundException e) {
-			System.out.println("File not found: " + inputFileName);
+			System.out.println("File: " + inputFileName + " not found. Please use JFileChooser window instead.");
+			// creating file chooser object
+			final JFileChooser j = new JFileChooser();
+			// filter to only allow the user to open .txt files
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files only", "txt");
+			j.setFileFilter(filter);
+			// opening directory
+			int returnVal = j.showOpenDialog(null);
+			// ensures filters are adhered to 
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				// recursive call to iterate through function with selected file
+				readMowerData(j.getSelectedFile().getName());
+			}
+			
 		}
 	} // readMowerData()
+	
+	// method to create new mower objects
+	@SuppressWarnings("resource")
+	public void createMowerObject() {
+		// creating a scanner for the method
+		Scanner mowerScnr = new Scanner(System.in);
+		boolean go = true;
+		Character choice = 'M';
+
+		// first display of user message
+		System.out.println("Enter type of mower to add. Type C for Commercial Mower, G for Gas Powered Mower, P for Push reel Mower, L for Lawn Tractor, or S for stop.");
+		choice = Character.toUpperCase(mowerScnr.next().charAt(0));
+		
+		// creating while loop to allow user to add unlimited mower objects
+		while (go == true) {
+			// sentinel value
+			if (choice.equals('S')) {
+				System.out.println("Mowers added!");
+				go = false;
+			}
+			else {
+				try {
+					// uniform data (Mower class)
+					System.out.println("Enter basic mower data: ");
+					// adding mower object, universal for all mowers
+					System.out.println("Manufacturer: ");
+					String manufacturer = mowerScnr.next();
+					System.out.println("Year: ");
+					int year = mowerScnr.nextInt();
+					System.out.println("Serial Number: ");
+					String serialNumber = mowerScnr.next();
+					// creating output format and objects
+					MowerWareHouse mowerWareHouse = new MowerWareHouse(manufacturer, year, serialNumber);
+					String mowerWareHouseString = ("\n" + manufacturer + "\n" + year + "\n" + serialNumber + "\n");
+					
+					// adding objects based on choice
+					if (choice.equals('C')) {
+						// reading parameters
+						System.out.println("Engine Manufacturer: ");
+						String engineManufacturer = mowerScnr.next();
+						System.out.println("Horsepower: ");
+						double horsepower = mowerScnr.nextDouble();
+						System.out.println("Cylinders: ");
+						int cylinders = mowerScnr.nextInt();
+						System.out.println("Model: ");
+						String model = mowerScnr.next();
+						System.out.println("Deck Width: ");
+						double deckWidth = mowerScnr.nextDouble();
+						System.out.println("Operating Hours: ");
+						double operatingHours = mowerScnr.nextDouble();
+						System.out.println("Zero Turn Radius: ");
+						boolean zeroTurnRadius = mowerScnr.nextBoolean();
+						// assigning to objects
+						Engine engine = new Engine(engineManufacturer, horsepower, cylinders);
+						LawnTractor lawnTractor = new LawnTractor(engine, model, deckWidth);
+						CommercialMower commercialMower = new CommercialMower(operatingHours, zeroTurnRadius);
+						
+						// adding to list
+						mowers.add(mowerWareHouse);
+						completeMowers.add(mowerWareHouse.toString() + "Subclass: " + choice + "\n" + engine.toString() + lawnTractor.toString() + commercialMower.toString());
+						
+						// string objects
+						String engineString = (engineManufacturer + "\n" + horsepower + "\n" + cylinders + "\n");
+						String lawnTractorString = (model + "\n" + deckWidth + "\n");
+						String commercialMowerString = (mowerWareHouseString + choice + "\n" + engineString + lawnTractorString + operatingHours + "\n" + zeroTurnRadius);
+						unformattedMowers.add(commercialMowerString);
+						
+						// next choice 
+						System.out.println("Enter type of mower to add. Type C for Commercial Mower, G for Gas Powered Mower, P for Push reel Mower, L for Lawn Tractor, or S for stop.");
+						choice = Character.toUpperCase(mowerScnr.next().charAt(0));
+					} // choice C
+					
+					else if (choice.equals('G')) {
+						// reading parameters
+						System.out.println("Engine Manufacturer: ");
+						String engineManufacturer = mowerScnr.next();
+						System.out.println("Horsepower: ");
+						double horsepower = mowerScnr.nextDouble();
+						System.out.println("Cylinders: ");
+						int cylinders = mowerScnr.nextInt();
+						System.out.println("Cut Width: ");
+						double cutWidth = mowerScnr.nextDouble();
+						System.out.println("Wheel Diameter: ");
+						double wheelDiameter = mowerScnr.nextDouble();
+						System.out.println("Self Propelled: ");
+						boolean selfPropelled = mowerScnr.nextBoolean();
+						// assigning to objects
+						Engine engine = new Engine(engineManufacturer, horsepower, cylinders);
+						GasPoweredMower walkBehindMower = new GasPoweredMower(cutWidth, wheelDiameter);
+						GasPoweredMower gasPoweredMower = new GasPoweredMower(engine, selfPropelled);
+						
+						// adding to list
+						mowers.add(mowerWareHouse);
+						completeMowers.add(mowerWareHouse.toString() + engine.toString() + "Subclass: " + choice + "\n" + walkBehindMower.toString() + gasPoweredMower.addSelfPropelled());
+						
+						// string objects
+						String engineString = (engineManufacturer + "\n" + horsepower + "\n" + cylinders + "\n");
+						String walkBehindMowerString = (cutWidth + "\n" + wheelDiameter + "\n");
+						String gasPoweredMowerString = (mowerWareHouseString + choice + "\n" + walkBehindMowerString + engineString + selfPropelled);
+						unformattedMowers.add(gasPoweredMowerString);
+						
+						// next choice 
+						System.out.println("Enter type of mower to add. Type C for Commercial Mower, G for Gas Powered Mower, P for Push reel Mower, L for Lawn Tractor, or S for stop.");
+						choice = Character.toUpperCase(mowerScnr.next().charAt(0));
+					} // choice G
+					
+					else if (choice.equals('P')) {
+						// reading parameters
+						System.out.println("Cut Width: ");
+						double cutWidth = mowerScnr.nextDouble();
+						System.out.println("Wheel Diameter: ");
+						double wheelDiameter = mowerScnr.nextDouble();
+						System.out.println("Number of Wheels: ");
+						int numWheels = mowerScnr.nextInt();
+						// assigning to objects
+						PushReelMower walkBehindMower = new PushReelMower(cutWidth, wheelDiameter);
+						PushReelMower pushReelMower = new PushReelMower(numWheels);
+						
+						// adding to list
+						mowers.add(mowerWareHouse);
+						completeMowers.add(mowerWareHouse.toString() + "Subclass: " + choice + "\n" + walkBehindMower.toString() + pushReelMower.toString());
+						
+						// string objects
+						String walkBehindMowerString = (cutWidth + "\n" + wheelDiameter + "\n");
+						String pushReelMowerString = (mowerWareHouseString + choice + "\n" + walkBehindMowerString + numWheels);
+						unformattedMowers.add(pushReelMowerString);
+						
+						// next choice 
+						System.out.println("Enter type of mower to add. Type C for Commercial Mower, G for Gas Powered Mower, P for Push reel Mower, L for Lawn Tractor, or S for stop.");
+						choice = Character.toUpperCase(mowerScnr.next().charAt(0));
+					} // choice P
+					
+					else if (choice.equals('L')) {
+						// reading parameters
+						System.out.println("Engine Manufacturer: ");
+						String engineManufacturer = mowerScnr.next();
+						System.out.println("Horsepower: ");
+						double horsepower = mowerScnr.nextDouble();
+						System.out.println("Cylinders: ");
+						int cylinders = mowerScnr.nextInt();
+						System.out.println("Model: ");
+						String model = mowerScnr.next();
+						System.out.println("Deck Width: ");
+						double deckWidth = mowerScnr.nextDouble();
+						// assigning to objects
+						Engine engine = new Engine(engineManufacturer, horsepower, cylinders);
+						LawnTractor lawnTractor = new LawnTractor(engine, model, deckWidth);
+						
+						// adding to list
+						mowers.add(mowerWareHouse);
+						completeMowers.add(mowerWareHouse.toString() + "Subclass: " + choice + "\n" + engine.toString() + lawnTractor.toString());
+						
+						// string objects
+						String engineString = (engineManufacturer + "\n" + horsepower + "\n" + cylinders + "\n");
+						String lawnTractorString = (model + "\n" + deckWidth + "\n");
+						String lawnTractorMowerString = (mowerWareHouseString + choice + "\n" + engineString + lawnTractorString);
+						unformattedMowers.add(lawnTractorMowerString);
+						
+						// next choice 
+						System.out.println("Enter type of mower to add. Type C for Commercial Mower, G for Gas Powered Mower, P for Push reel Mower, L for Lawn Tractor, or S for stop.");
+						choice = Character.toUpperCase(mowerScnr.next().charAt(0));
+					} // choice L
+					else {
+						System.out.println("Invalid option.");
+						
+						// next choice 
+						System.out.println("Enter type of mower to add. Type C for Commercial Mower, G for Gas Powered Mower, P for Push reel Mower, L for Lawn Tractor, or S for stop.");
+						choice = Character.toUpperCase(mowerScnr.next().charAt(0));
+					}
+				} // try
+				// if user inputs wrong value, code doesn't break
+				catch (InputMismatchException e){
+					System.out.println("Invalid input. Please start over.\n");
+				}
+				// catch all
+				catch (Exception e) {
+					System.out.println("Bad data. Please start over.\n");
+				} // final catch
+			} // else
+		} // while loop
+	} // createMowerObject();
+	
+	// method to append unformatted user data
+	public void appendUnformatted(String inputFileName) throws IOException {
+		FileWriter fw = new FileWriter(inputFileName, true);
+		PrintWriter pw = new PrintWriter(fw);
+		
+		// adding unformatted data to file
+		for (int i=0; i<unformattedMowers.size(); i++) {
+			pw.print(unformattedMowers.get(i));
+		}
+		
+		// closing PrintWriter
+		pw.close();
+	}
+	
+	// method to read in a new mower object
+	@SuppressWarnings("resource")
+	public void addMower() {
+		// creating a scanner object
+		Scanner scnr = new Scanner(System.in);
+		// communicate with user
+		System.out.println("Would you like to add a new mower to the file? Y/N.");
+		// read input
+		Character choice = Character.toUpperCase(scnr.next().charAt(0));
+		// adding mower objects based on on user input
+		if (choice.equals('Y')) {
+			// reading and adding objects using prompts
+			createMowerObject();
+		}
+		else {
+			System.out.println("Enter subclass to see available mowers: ");
+		}
+	}
 
 	// method to save file data
 	public void saveMowerData(String outputFileName) throws IOException {
