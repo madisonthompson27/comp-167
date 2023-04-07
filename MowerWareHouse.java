@@ -183,6 +183,10 @@ public class MowerWareHouse extends Mower {
 			
 			// starting with blank list
 			completeMowers.clear();
+			commercialMowers.clear();
+			lawnTractors.clear();
+			gasPoweredMowers.clear();
+			pushReelMowers.clear();
 			
 			// assigning Mower class with proper subclass
 			while (mowerData.size() > 0) {
