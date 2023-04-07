@@ -217,7 +217,7 @@ public class MowerWareHouse extends Mower {
 		} // try block
 		
 		catch (FileNotFoundException e) {
-			System.out.println("File: " + inputFileName + " not found. Please use JFileChooser window instead.");
+			System.out.println("File: " + inputFileName + " not found. Please use JFileChooser window instead.\nKeep in mind that it may open in a new eclipse window.");
 			// creating file chooser object
 			final JFileChooser j = new JFileChooser();
 			// filter to only allow the user to open .txt files
@@ -259,7 +259,8 @@ public class MowerWareHouse extends Mower {
 					System.out.println("Enter basic mower data: ");
 					// adding mower object, universal for all mowers
 					System.out.println("Manufacturer: ");
-					String manufacturer = mowerScnr.next();
+					String manufacturer = mowerScnr.nextLine();
+					manufacturer = mowerScnr.nextLine();
 					System.out.println("Year: ");
 					int year = mowerScnr.nextInt();
 					System.out.println("Serial Number: ");
@@ -272,7 +273,8 @@ public class MowerWareHouse extends Mower {
 					if (choice.equals('C')) {
 						// reading parameters
 						System.out.println("Engine Manufacturer: ");
-						String engineManufacturer = mowerScnr.next();
+						String engineManufacturer = mowerScnr.nextLine();
+						engineManufacturer = mowerScnr.nextLine();
 						System.out.println("Horsepower: ");
 						double horsepower = mowerScnr.nextDouble();
 						System.out.println("Cylinders: ");
@@ -283,7 +285,7 @@ public class MowerWareHouse extends Mower {
 						double deckWidth = mowerScnr.nextDouble();
 						System.out.println("Operating Hours: ");
 						double operatingHours = mowerScnr.nextDouble();
-						System.out.println("Zero Turn Radius: ");
+						System.out.println("Zero Turn Radius (true/false): ");
 						boolean zeroTurnRadius = mowerScnr.nextBoolean();
 						// assigning to objects
 						Engine engine = new Engine(engineManufacturer, horsepower, cylinders);
@@ -308,7 +310,8 @@ public class MowerWareHouse extends Mower {
 					else if (choice.equals('G')) {
 						// reading parameters
 						System.out.println("Engine Manufacturer: ");
-						String engineManufacturer = mowerScnr.next();
+						String engineManufacturer = mowerScnr.nextLine();
+						engineManufacturer = mowerScnr.nextLine();
 						System.out.println("Horsepower: ");
 						double horsepower = mowerScnr.nextDouble();
 						System.out.println("Cylinders: ");
@@ -317,7 +320,7 @@ public class MowerWareHouse extends Mower {
 						double cutWidth = mowerScnr.nextDouble();
 						System.out.println("Wheel Diameter: ");
 						double wheelDiameter = mowerScnr.nextDouble();
-						System.out.println("Self Propelled: ");
+						System.out.println("Self Propelled (true/false): ");
 						boolean selfPropelled = mowerScnr.nextBoolean();
 						// assigning to objects
 						Engine engine = new Engine(engineManufacturer, horsepower, cylinders);
@@ -368,7 +371,8 @@ public class MowerWareHouse extends Mower {
 					else if (choice.equals('L')) {
 						// reading parameters
 						System.out.println("Engine Manufacturer: ");
-						String engineManufacturer = mowerScnr.next();
+						String engineManufacturer = mowerScnr.nextLine();
+						engineManufacturer = mowerScnr.nextLine();						
 						System.out.println("Horsepower: ");
 						double horsepower = mowerScnr.nextDouble();
 						System.out.println("Cylinders: ");
@@ -464,6 +468,11 @@ public class MowerWareHouse extends Mower {
 		} // for loop
 		pw.close();
 	} // saveMowerData()
+	
+	// toString() override method
+	public String toString() {
+		return (super.toString());
+	}
 	
 	/*
 	// main method for testing
