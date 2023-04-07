@@ -10,7 +10,6 @@ import java.util.Scanner;
 public class Client {
 	// boolean for while loop
 	public static boolean go = true;
-	public static Character choice;
 	
 	// message that will appear to guide mower selection.
 	public static void userMessage() {
@@ -19,39 +18,48 @@ public class Client {
 	
 	public static void main(String[] args) throws IOException {
 		// creating scanner to read input and output file names
-		Scanner fileScnr = new Scanner(System.in);
+		Scanner scnr = new Scanner(System.in);
 		
 		// creating MowerWareHouse object
 		MowerWareHouse mowerWareHouse = new MowerWareHouse();
 		
 		// prompting user for file name
 		System.out.print("Enter name of file to read: ");
-		String inputFileName = fileScnr.next();
+		String inputFileName = scnr.next();
 		
 		// reading data
 		mowerWareHouse.readMowerData(inputFileName);
 		//System.out.println(mowerWareHouse.completeMowers); // testing to see if data goes to file
 		
+		// allowing the user to add more mowers to the database, if they so choose
+		mowerWareHouse.addMower();
+		// adding data from list to file
+		mowerWareHouse.appendUnformatted(inputFileName);
+		
+		// rereading updated data
+		mowerWareHouse.readMowerData(inputFileName);
+		
 		// running while loop to print values as user wishes
 		while (go == true) {
+
 			// printing menu option
 			userMessage();
-			choice = Character.toUpperCase(fileScnr.next().charAt(0));
+			Character choice = Character.toUpperCase(scnr.next().charAt(0));
 			
 			// if statements to determine which data to print
-			if (choice == 'S') {
+			if (choice.equals('S')) {
 				break;
 			}
-			else if (choice == 'C') {
+			else if (choice.equals('C')) {
 				System.out.println(mowerWareHouse.commercialMowers);
 			}
-			else if (choice == 'L') {
+			else if (choice.equals('L')) {
 				System.out.println(mowerWareHouse.lawnTractors);
 			}
-			else if (choice == 'G') {
+			else if (choice.equals('G')) {
 				System.out.println(mowerWareHouse.gasPoweredMowers);
 			}
-			else if (choice == 'P') {
+			else if (choice.equals('P')) {
 				System.out.println(mowerWareHouse.pushReelMowers);
 			}
 			else {
@@ -61,13 +69,16 @@ public class Client {
 		
 		// save data to file
 		System.out.print("Enter name of file to save data to: ");
-		String outputFileName = fileScnr.next();
+		String outputFileName = scnr.next();
+		
+		// closing scanner
+		scnr.close();
 		
 		mowerWareHouse.saveMowerData(outputFileName);
 		
 		// user exit messages
 		System.out.println("File: " + outputFileName + " saved successfully.");
 		System.out.println("Thank you for using the mower database!");
-	} // main method // FIXME add ability to create new mower object
+	} // main method
 
 } // Client class
